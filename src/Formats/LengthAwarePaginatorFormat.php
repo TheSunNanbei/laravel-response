@@ -11,10 +11,10 @@ class LengthAwarePaginatorFormat
     public function formatData($data): array
     {
         $formatData = $data->items();
-        $paginate = PaginateUtil::paginates($data);
+        $pagination = PaginateUtil::paginates($data);
         return [
             'data' => $formatData,
-            'meta' => $paginate
+            'meta' => ['pagination' => $pagination]
         ];
     }
 }

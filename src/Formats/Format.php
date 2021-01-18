@@ -5,8 +5,10 @@ namespace NanBei\Response\Formats;
 
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
+use NanBei\Response\Facades\Basic;
 
 class Format
 {
@@ -16,6 +18,10 @@ class Format
         //集合类型处理
         if ($data instanceof ResourceCollection) {
             $formatClass = new ResourceCollectionFormat();
+        }
+        //jsonResource类型处理
+        if ($data instanceof JsonResource) {
+            $formatClass = new JsonResourceFormat();
         }
         //分页类型处理
         if ($data instanceof LengthAwarePaginator) {
@@ -27,16 +33,22 @@ class Format
 
     public function formatData($data)
     {
+        if (is_null($data)) {
+            return ['data' => Basic::default()];
+        }
         $data = Collection::make($data);
         $first = $data->first();
 
         if (is_array($first) || is_object($first)) {
+            $data = $data->get('data', $data);
+            $data = Collection::make($data);
+
             return [
-                'data' => $data->get('data', $data),
+                'data' => $data,
                 'meta' => $data->get('meta', [])
             ];
         }
 
-        return $data;
+        return ['data' => $data];
     }
 }

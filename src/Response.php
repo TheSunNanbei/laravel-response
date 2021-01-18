@@ -5,6 +5,7 @@ namespace NanBei\Response;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
+use NanBei\Response\Facades\Basic;
 use NanBei\Response\Facades\FormatData;
 
 class Response
@@ -65,6 +66,7 @@ class Response
      */
     public function fail(int $code = -1, $message = '请求失败.'): \Illuminate\Http\JsonResponse
     {
+        $this->data = null;
         $this->errCode = $code;
         $this->message = $message;
         return $this->response();
@@ -79,6 +81,7 @@ class Response
      */
     public function error(int $code = -1, $message = '系统故障.'): \Illuminate\Http\JsonResponse
     {
+        $this->data = null;
         $this->errCode = $code;
         $this->message = $message;
         $this->httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR;
@@ -130,6 +133,7 @@ class Response
     {
         $this->errCode = $code;
         $this->message = $message;
+        $this->data = null;
         $this->httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED;
         return $this->response();
     }
@@ -158,6 +162,7 @@ class Response
      */
     public function notFound(int $code = 0, $message = '请求资源不存在.'): \Illuminate\Http\JsonResponse
     {
+        $this->data = null;
         $this->errCode = $code;
         $this->message = $message;
         $this->httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND;
@@ -173,6 +178,7 @@ class Response
      */
     public function validateFail(int $code = 0, $message = '请求参数错误.'): \Illuminate\Http\JsonResponse
     {
+        $this->data = null;
         $this->errCode = $code;
         $this->message = $message;
         $this->httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY;
@@ -185,15 +191,12 @@ class Response
         //组装返回内容
         $responseData = [
             'error_code' => $this->errCode,
-            'message' => $this->message,
-            'data' => $this->responseData,
+            'message' => $this->message
         ];
 
-        //如果meta数据为空，则不返回。
-        $data = Collection::make($this->data);
-        $meta = Collection::make($this->meta);
-        if ($data->isNotEmpty() && $meta->isEmpty()) {
-            $responseData['data'] = ['data' => $this->data];
+        if (!is_null($this->data)){
+            $responseData['data'] = $this->data;
+            $responseData['meta'] = empty($this->meta) ? Basic::default() : $this->meta;
         }
 
         //如果开启debug，则返回错误内容，供开发者查阅
