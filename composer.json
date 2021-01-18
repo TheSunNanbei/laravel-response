@@ -1,0 +1,25 @@
+{
+    "name": "sunnanbei/laravel-response",
+    "description": "laravel-response",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "sunnanbei",
+            "email": "nanbei.sun@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/TheSunNanbei/laravel-response.git",
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.2.5 || ^8.0",
+        "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0|^7.0|^8.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "NanBei\\Response\\": "src"
+        }
+    }
+}
