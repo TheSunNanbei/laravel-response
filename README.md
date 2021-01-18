@@ -1,5 +1,7 @@
 # laravel-response
 
+基于laravel封装的response类
+
 ## 这个包的目的是？
 在项目开发时，由于获取数据方式不同(ORM、DB、自定义...)，会出现返回格式不统一的情况。  
 如果使用laravel自带的API资源(Resource)可以完美解决这个问题。  
