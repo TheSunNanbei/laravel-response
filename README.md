@@ -20,6 +20,64 @@ use NanBei\Response\Facades\Response;
 //请求成功，输出数据，返回200
 return Response::success($data);
 ```
+```json
+{
+    "error_code": 0,
+    "message": "请求成功.",
+    "data": {
+        "data": [
+            {
+                "id": 1,
+                "name": "北京"
+            },
+            {
+                "id": 2,
+                "name": "伤害"
+            }
+        ]
+    },
+    "error": "",
+    "debug": []
+}
+```
+```json
+{
+    "error_code": 0,
+    "message": "请求成功.",
+    "data": {
+        "data": [
+            {
+                "id": 1,
+                "name": "北京"
+            },
+            {
+                "id": 2,
+                "name": "伤害"
+            }
+        ],
+        "meta": {
+          "total": 2,
+          "current_page": 1,
+          "last_page": 1,
+          "per_page": 1
+        }
+    },
+    "error": "",
+    "debug": []
+}
+```
+```json
+{
+    "error_code": 0,
+    "message": "请求成功.",
+    "data": {
+        "id": 1,
+        "name": "北京"
+    },
+    "error": "",
+    "debug": []
+}
+```
 ```php
 //请求失败，系统异常，返回500
 return Response::error();
