@@ -45,8 +45,8 @@ return Response::success($data);
     "error_code": 0,
     "message": "请求成功.",
     "data": {
-            "id": 1,
-            "name": "北京"
+        "id": 1,
+        "name": "北京"
     },
     "meta": {},
     "error": "",
