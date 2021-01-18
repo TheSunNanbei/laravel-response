@@ -40,6 +40,45 @@ return Response::success($data);
     "debug": []
 }
 ```
+```json
+{
+    "error_code": 0,
+    "message": "请求成功.",
+    "data": {
+            "id": 1,
+            "name": "北京"
+    },
+    "meta": {},
+    "error": "",
+    "debug": []
+}
+```
+```json
+{
+    "error_code": 0,
+    "message": "请求成功.",
+    "data": [
+        {
+            "id": 1,
+            "name": "北京"
+        },
+        {
+            "id": 2,
+            "name": "上海"
+        }
+    ],
+    "meta": {
+        "pagination": {
+            "total": 100,
+            "current_page": 1,
+            "last_page": 50,
+            "per_page": 2
+        }
+    },
+    "error": "",
+    "debug": []
+}
+```
 ```php
 //请求失败，系统异常，返回500
 return Response::error();
