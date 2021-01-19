@@ -19,7 +19,6 @@ trait JsonResponse
     public function invalidJson($request, $e)
     {
         $message = $e->getMessage();
-        $errors = $e->errors();
         return Response::validateFail(0, $message);
     }
 
