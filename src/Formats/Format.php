@@ -34,7 +34,7 @@ class Format
     public function formatData($data)
     {
         if (is_null($data)) {
-            return ['data' => Basic::default()];
+            return ['data' => Basic::defaultValue()];
         }
         $data = Collection::make($data);
         $first = $data->first();

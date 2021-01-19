@@ -2,9 +2,6 @@
 
 namespace NanBei\Response;
 
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Collection;
 use NanBei\Response\Facades\Basic;
 use NanBei\Response\Facades\FormatData;
 
@@ -77,13 +74,17 @@ class Response
      * http-status: 500
      * @param int $code
      * @param string $message
+     * @param string $error
+     * @param array $debug
      * @return \Illuminate\Http\JsonResponse
      */
-    public function error(int $code = -1, $message = '系统故障.'): \Illuminate\Http\JsonResponse
+    public function error(int $code = -1, $message = '系统故障.', $error = '', $debug = []): \Illuminate\Http\JsonResponse
     {
         $this->data = null;
         $this->errCode = $code;
         $this->message = $message;
+        $this->error = $error;
+        $this->debug = $debug;
         $this->httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR;
         return $this->response();
     }
@@ -196,7 +197,7 @@ class Response
 
         if (!is_null($this->data)){
             $responseData['data'] = $this->data;
-            $responseData['meta'] = empty($this->meta) ? Basic::default() : $this->meta;
+            $responseData['meta'] = empty($this->meta) ? Basic::defaultValue() : $this->meta;
         }
 
         //如果开启debug，则返回错误内容，供开发者查阅
