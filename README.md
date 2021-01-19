@@ -103,3 +103,13 @@ return Response::forbidden();
 //请求成功，返回404
 return Response::notFound();
 ```
+```php
+//接管异常
+···
+use NanBei\Response\Exceptions\JsonResponse;
+
+class Handler extends ExceptionHandler
+{
+    use JsonResponse;
+···
+```
