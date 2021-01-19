@@ -40,11 +40,8 @@ class Format
         $first = $data->first();
 
         if (is_array($first) || is_object($first)) {
-            $data = $data->get('data', $data);
-            $data = Collection::make($data);
-
             return [
-                'data' => $data,
+                'data' => $data->get('data', $data),
                 'meta' => $data->get('meta', [])
             ];
         }
