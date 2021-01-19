@@ -13,13 +13,13 @@ trait JsonResponse
     public function unauthenticated($request, $e)
     {
         $message = $e->getMessage();
-        return Response::unauthorized(0, $message);
+        return Response::unauthorized(null, $message);
     }
 
     public function invalidJson($request, $e)
     {
         $message = $e->getMessage();
-        return Response::validateFail(0, $message);
+        return Response::validateFail(null, $message);
     }
 
     public function prepareJsonResponse($request, $e)
@@ -37,11 +37,11 @@ trait JsonResponse
                     break;
                 //没有权限
                 case HttpResponse::HTTP_FORBIDDEN:
-                    $response = Response::forbidden(0, $e->getMessage());
+                    $response = Response::forbidden(null, $e->getMessage());
                     break;
                 //资源不存在
                 case HttpResponse::HTTP_NOT_FOUND:
-                    $response = Response::notFound(0, $e->getMessage());
+                    $response = Response::notFound(null, $e->getMessage());
                     break;
                 default:
                     $response = $this->error($request, $e);
@@ -58,8 +58,8 @@ trait JsonResponse
     private function error($request, $e)
     {
         return Response::error(
-            -1,
-            '系统故障.',
+            null,
+            null,
             $e->getMessage(),
             $this->debug($request, $e)
         );

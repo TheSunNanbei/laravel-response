@@ -22,5 +22,12 @@
         "psr-4": {
             "NanBei\\Response\\": "src"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "NanBei\\Response\\Providers\\ServiceProvider"
+            ]
+        }
     }
 }

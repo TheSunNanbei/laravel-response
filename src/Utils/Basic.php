@@ -8,10 +8,10 @@ class Basic
 {
     /**
      * 默认返回值
-     * @return \stdClass
+     * @return \stdClass|array
      */
     public function defaultValue()
     {
-        return new \stdClass();
+        return config('laravel-response.is_object') ? new \stdClass() : [];
     }
 }

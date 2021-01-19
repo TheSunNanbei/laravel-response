@@ -11,13 +11,13 @@ class Response
     protected $httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_OK;
 
     //响应回复状态码
-    protected $errCode = 0;
+    protected $errCode;
 
     //响应回复信息
-    protected $message = '请求成功';
+    protected $message;
 
     //响应回复错误内容
-    protected $error = '';
+    protected $error;
 
     //响应回复错误堆栈
     protected $debug = [];
@@ -39,7 +39,7 @@ class Response
      * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
-    public function success($data, $message = '请求成功.', $code = 0): \Illuminate\Http\JsonResponse
+    public function success($data, $message = null, $code = null): \Illuminate\Http\JsonResponse
     {
         //格式化响应数据
         $formatData = FormatData::format($data);
@@ -48,8 +48,8 @@ class Response
         $this->data = $formatData['data'] ?? [];
         $this->meta = $formatData['meta'] ?? [];
 
-        $this->errCode = $code;
-        $this->message = $message;
+        $this->errCode = (int)($code ?? config('laravel-response.code.success'));
+        $this->message = $message ?? config('laravel-response.message.success');
 
         return $this->response();
     }
@@ -61,11 +61,11 @@ class Response
      * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function fail(int $code = -1, $message = '请求失败.'): \Illuminate\Http\JsonResponse
+    public function fail($code = null, $message = null): \Illuminate\Http\JsonResponse
     {
         $this->data = null;
-        $this->errCode = $code;
-        $this->message = $message;
+        $this->errCode = (int)($code ?? config('laravel-response.code.fail'));
+        $this->message = $message ?? config('laravel-response.message.fail');
         return $this->response();
     }
 
@@ -78,11 +78,11 @@ class Response
      * @param array $debug
      * @return \Illuminate\Http\JsonResponse
      */
-    public function error(int $code = -1, $message = '系统故障.', $error = '', $debug = []): \Illuminate\Http\JsonResponse
+    public function error($code = null, $message = null, $error = null, $debug = []): \Illuminate\Http\JsonResponse
     {
         $this->data = null;
-        $this->errCode = $code;
-        $this->message = $message;
+        $this->errCode = (int)($code ?? config('laravel-response.code.error'));
+        $this->message = $message ?? config('laravel-response.message.error');
         $this->error = $error;
         $this->debug = $debug;
         $this->httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR;
@@ -97,7 +97,7 @@ class Response
      * @param array $data
      * @return \Illuminate\Http\JsonResponse
      */
-    public function created(int $code = 0, $message = '操作成功.', $data = []): \Illuminate\Http\JsonResponse
+    public function created($code = null, $message = null, $data = []): \Illuminate\Http\JsonResponse
     {
         //格式化响应数据
         $formatData = FormatData::format($data);
@@ -106,8 +106,8 @@ class Response
         $this->data = $formatData['data'] ?? [];
         $this->meta = $formatData['meta'] ?? [];
 
-        $this->errCode = $code;
-        $this->message = $message;
+        $this->errCode = (int)($code ?? config('laravel-response.code.created'));
+        $this->message = $message ?? config('laravel-response.message.created');
         $this->httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_CREATED;
         return $this->response();
     }
@@ -130,11 +130,11 @@ class Response
      * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function unauthorized(int $code = 0, $message = '未授权.'): \Illuminate\Http\JsonResponse
+    public function unauthorized($code = null, $message = null): \Illuminate\Http\JsonResponse
     {
-        $this->errCode = $code;
-        $this->message = $message;
         $this->data = null;
+        $this->errCode = (int)($code ?? config('laravel-response.code.unauthorized'));
+        $this->message = $message ?? config('laravel-response.message.unauthorized');
         $this->httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED;
         return $this->response();
     }
@@ -146,10 +146,10 @@ class Response
      * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function forbidden(int $code = 0, $message = '请求权限不足.'): \Illuminate\Http\JsonResponse
+    public function forbidden($code = null, $message = null): \Illuminate\Http\JsonResponse
     {
-        $this->errCode = $code;
-        $this->message = $message;
+        $this->errCode = (int)($code ?? config('laravel-response.code.forbidden'));
+        $this->message = $message ?? config('laravel-response.message.forbidden');
         $this->httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN;
         return $this->response();
     }
@@ -161,11 +161,11 @@ class Response
      * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function notFound(int $code = 0, $message = '请求资源不存在.'): \Illuminate\Http\JsonResponse
+    public function notFound($code = null, $message = null): \Illuminate\Http\JsonResponse
     {
         $this->data = null;
-        $this->errCode = $code;
-        $this->message = $message;
+        $this->errCode = (int)($code ?? config('laravel-response.code.not_found'));
+        $this->message = $message ?? config('laravel-response.message.not_found');
         $this->httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND;
         return $this->response();
     }
@@ -177,11 +177,11 @@ class Response
      * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function validateFail(int $code = 0, $message = '请求参数错误.'): \Illuminate\Http\JsonResponse
+    public function validateFail($code = null, $message = null): \Illuminate\Http\JsonResponse
     {
         $this->data = null;
-        $this->errCode = $code;
-        $this->message = $message;
+        $this->errCode = (int)($code ?? config('laravel-response.code.validate_fail'));
+        $this->message = $message ?? config('laravel-response.message.validate_fail');
         $this->httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY;
         return $this->response();
     }
