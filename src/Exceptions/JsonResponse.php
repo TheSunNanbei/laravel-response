@@ -5,6 +5,7 @@ namespace NanBei\Response\Exceptions;
 
 
 use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 use NanBei\Response\Facades\Response;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
@@ -19,7 +20,8 @@ trait JsonResponse
     public function invalidJson($request, $e)
     {
         $message = $e->getMessage();
-        return Response::validateFail(null, $message);
+        $debug = $e instanceof ValidationException ? $e->errors() : [];
+        return Response::validateFail(null, $message, null, $debug);
     }
 
     public function prepareJsonResponse($request, $e)
@@ -41,7 +43,8 @@ trait JsonResponse
                     break;
                 //资源不存在
                 case HttpResponse::HTTP_NOT_FOUND:
-                    $response = Response::notFound(null, $e->getMessage());
+                    $message = $e->getMessage();
+                    $response = Response::notFound(null, empty($message) ? null : $message);
                     break;
                 default:
                     $response = $this->error($request, $e);

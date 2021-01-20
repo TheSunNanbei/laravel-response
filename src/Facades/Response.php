@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Illuminate\Http\JsonResponse unauthorized(int $code = 0, string $message = '未授权.')
  * @method static \Illuminate\Http\JsonResponse forbidden(int $code = 0, string $message = '请求权限不足.')
  * @method static \Illuminate\Http\JsonResponse notFound(int $code = 0, string $message = '请求资源不存在.')
- * @method static \Illuminate\Http\JsonResponse validateFail(int $code = 0, string $message = '请求参数错误.')
+ * @method static \Illuminate\Http\JsonResponse validateFail(int $code = 0, string $message = '请求参数错误.', $errors = null, $debug = [])
  */
 class Response extends Facade
 {

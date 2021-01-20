@@ -175,13 +175,17 @@ class Response
      * http-status: 422
      * @param int $code
      * @param string $message
+     * @param null $error
+     * @param array $debug
      * @return \Illuminate\Http\JsonResponse
      */
-    public function validateFail($code = null, $message = null): \Illuminate\Http\JsonResponse
+    public function validateFail($code = null, $message = null, $error = null, $debug = []): \Illuminate\Http\JsonResponse
     {
         $this->data = null;
         $this->errCode = (int)($code ?? config('laravel-response.code.validate_fail'));
         $this->message = $message ?? config('laravel-response.message.validate_fail');
+        $this->error = $error ?? config('laravel-response.message.validate_fail', '查阅DEBUG.');
+        $this->debug = $debug;
         $this->httpStatus = \Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY;
         return $this->response();
     }
@@ -201,8 +205,8 @@ class Response
         }
 
         //如果开启debug，则返回错误内容，供开发者查阅
-        if (config('app.debug', true)) {
-            $responseData['error'] = $this->error;
+        if (config('app.debug', true) && !is_null($this->error)) {
+            $responseData['error'] = $this->error ?? '';
             $responseData['debug'] = $this->debug;
         }
 
