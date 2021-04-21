@@ -5,6 +5,7 @@ namespace NanBei\Response\Formats;
 
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
@@ -27,6 +28,11 @@ class Format
         if ($data instanceof LengthAwarePaginator) {
             $formatClass = new LengthAwarePaginatorFormat();
         }
+        // 简单分页类处理
+        if ($data instanceof Paginator) {
+            $formatClass = new PaginatorFormat();
+        }
+
 
         return $formatClass->formatData($data);
     }
