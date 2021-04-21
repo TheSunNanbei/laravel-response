@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static array paginates(object |array $data = [])
+ * @method static array simplePagenates(object |array $data = [])
  */
 class PaginateUtil extends Facade
 {
